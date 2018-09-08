@@ -172,30 +172,3 @@ HashTable.find(4)
 HashTable.find(14)
 HashTable.find(24)
 HashTable.find(7)
-
-
-
-"""Doubly Linked List Example"""
-
-# node1 = Node(12) #initialize new node
-# lst1 = LList(node1) #initialize new llist with node
-
-# #add values to list
-# lst1.insert(13)
-# lst1.insert(14)
-# lst1.insert(15)
-
-# #print full list from head to tail
-# lst1.printList()
-
-# #print tail->prev->prev
-# print(lst1.tail.prev.prev.val)
-
-# #find element in list
-# print(lst1.find(16))
-
-# #remove element
-# lst1.remove(14)
-
-# #print updated list
-# lst1.printList()
