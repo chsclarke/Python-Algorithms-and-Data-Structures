@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This is an example of a doubly linked list in python 3. 
+This is an example of open chaining implemented with a doubly linked list in python 3. 
 Copyright 2018 Chase Clarke cfclarke@bu.edu
 """
 
