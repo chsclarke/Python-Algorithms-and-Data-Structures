@@ -29,8 +29,6 @@ def SelectionSort(input):
     return sorted
 
 
-
-
 input = [2,8,1,6,7,15,12]
 
 
