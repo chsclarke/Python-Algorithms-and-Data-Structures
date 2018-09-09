@@ -47,11 +47,11 @@ class BST:
             self.printTree(root.rightChild)
 
 
-root = Node(8)
+root = Node(1)
 
 MyBST = BST(root)
 
-lst = [6, 1, 13, 14, 4, 7, 3, 14, 10]
+lst = [6, 8, 13, 14, 4, 7, 3, 14, 10]
 
 for i in lst:
     MyBST.insert(i, root)
