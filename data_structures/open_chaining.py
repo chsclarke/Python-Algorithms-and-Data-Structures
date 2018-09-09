@@ -171,4 +171,8 @@ HashTable.find(2)
 HashTable.find(4)
 HashTable.find(14)
 HashTable.find(24)
+<<<<<<< HEAD:data_structures/open_chaining.py
 HashTable.find(7)
+=======
+HashTable.find(7)
+>>>>>>> 303f3447fc225fcda9a65f9156fbb0c5c0f2a562:open_chaining.py
