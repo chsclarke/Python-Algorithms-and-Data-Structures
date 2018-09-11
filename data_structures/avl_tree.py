@@ -7,55 +7,114 @@ Copyright 2018 Chase Clarke cfclarke@bu.edu
 class Node:
     def __init__(self, data):
         self.data = data
+        self.parent = None
         self.leftChild = None
         self.rightChild = None
         self.height = 1
+        self.balance = 0
 
 class AVLTree:
     def __init__(self, rootNode):
         self.root = rootNode
-
+        
 
     def insert(self, key, currentNode):
         insertNode = Node(key)
+        insertNode.parent = currentNode
 
+        #recursivly checking nodes until correct location found
         if insertNode.data < currentNode.data:
             if(currentNode.leftChild is None):
-                currentNode.height += 1
                 currentNode.leftChild = insertNode
 
             else:
-                currentNode.height = 1 + self.insert(key, currentNode.leftChild)
+                self.insert(key, currentNode.leftChild)
 
         elif insertNode.data > currentNode.data:
             if(currentNode.rightChild is None):
-                currentNode.height += 1
                 currentNode.rightChild = insertNode
 
             else:
-                currentNode.height = 1 + self.insert(key, currentNode.rightChild)
-        
-        balance = self.getBalance(currentNode)
- 
-        # Case 1 - Left Left
-        if balance > 1 and key < currentNode.leftChild.data:
+                self.insert(key, currentNode.rightChild)
+
+        #calculating height and balance of each node
+        currentNode.height = 1 + self.getMax(currentNode.leftChild, currentNode.rightChild)
+        currentNode.balance  = self.getBalance(currentNode.leftChild, currentNode.rightChild)
+
+
+        #performing tree rotations to correct balance if needed
+        #Case 1: Left - Left
+        if currentNode.balance > 1 and key < currentNode.leftChild.data:
             return self.rightRotation(currentNode)
- 
-        # Case 2 - Right Right
-        if balance < -1 and key > currentNode.rightChild.data:
+            
+        #Case 2: Right - Right
+        if currentNode.balance < -1 and key > currentNode.rightChild.data:
             return self.leftRotation(currentNode)
- 
-        # Case 3 - Left Right
-        if balance > 1 and key > currentNode.leftChild.data:
+
+        #Case 3: Left - Right
+        if currentNode.balance > 1 and key > currentNode.leftChild.data:
             currentNode.leftChild = self.leftRotation(currentNode.leftChild)
             return self.rightRotation(currentNode)
- 
-        # Case 4 - Right Left
-        if balance < -1 and key < currentNode.rightChild.data:
+
+        #Case 4: Right - Left
+        if currentNode.balance < -1 and key < currentNode.rightChild.data:
             currentNode.rightChild = self.rightRotation(currentNode.rightChild)
             return self.leftRotation(currentNode)
+            
+        return currentNode
+
+    def leftRotation(self, root):
+        print("left rotation on", root.data)
+        temp = root.rightChild
+        temp2 = temp.leftChild
+        temp.leftChild = root
+        root.rightChild = temp2
+       
+        #reassigning parents
+        if root is not self.root:
+            temp.parent = root.parent
+            temp.parent.rightChild = temp
+
+        root.parent = temp
+
+        #re-calculating the height and balance for nodes
+        root.height = 1 + self.getMax(root.leftChild, root.rightChild)
+        temp.height = 1 + self.getMax(temp.leftChild, temp.rightChild)  
+        root.balance  = self.getBalance(root.leftChild, root.rightChild)
+        temp.balance  = self.getBalance(temp.leftChild, temp.rightChild)   
+
+        #reassigning root
+        if(root is self.root):
+            self.root = temp
+
+        return temp
+
+    def rightRotation(self, root):
+        print("right rotation on", root.data)
+        temp = root.leftChild
+        temp2 = temp.rightChild
+        temp.rightChild = root
+        root.leftChild = temp2
         
-        return currentNode.height
+        #reassigning parents
+        if root is not self.root:
+            temp.parent = root.parent
+            temp.parent.leftChild = temp
+
+        root.parent = temp
+
+        #re-calculating the height and balance for nodes
+        root.height = 1 + self.getMax(root.leftChild, root.rightChild)
+        temp.height = 1 + self.getMax(temp.leftChild, temp.rightChild)
+        root.balance  = self.getBalance(root.leftChild, root.rightChild)
+        temp.balance  = self.getBalance(temp.leftChild, temp.rightChild) 
+        
+        #reassigning root
+        if(root is self.root):
+            self.root = temp
+
+        return temp
+
 
     def getMax(self, leftChild, rightChild):
         #checking for nonetype so max() isnt broken when child doesnt exist
@@ -72,50 +131,27 @@ class AVLTree:
         else:
             return max(leftChild.height, rightChild.height)
 
-    def leftRotation(self, root):
-        temp = root.rightChild
-        temp2 = temp.leftChild
-        temp.leftChild = root
-        root.rightChild = temp2
+    def getBalance(self, leftChild, rightChild):
+        #checking for nonetype so max() isnt broken when child doesnt exist
+        if (leftChild is None):
+            if (rightChild is not None):
+                return 0-rightChild.height
+            else:
+                return 0
+        elif (rightChild is None):
+            if (leftChild is not None):
+                return leftChild.height
+            else:
+                return 0
+        else:
+            return (leftChild.height - rightChild.height)
 
-        root.height = 1 + self.getMax(root.leftChild, root.rightChild)
-        temp.height = 1 + self.getMax(temp.leftChild, temp.rightChild)
-
-        self.root = temp
-        
-
-    def rightRotation(self, root):
-        temp = root.leftChild
-        temp2 = temp.rightChild
-        temp.rightChild = root
-        root.leftChild = temp2
-
-        root.height = 1 + self.getMax(root.leftChild, root.rightChild)
-        temp.height = 1 + self.getMax(temp.leftChild, temp.rightChild)
-
-        self.root = temp
-
-
-    def getHeight(self, root):
-        if not root:
-            return 0
- 
-        return root.height
- 
-    def getBalance(self, root):
-        if not root:
-            return 0
- 
-        return self.getHeight(root.leftChild) - self.getHeight(root.rightChild)
-
-    """inorder traversal of tree"""
+    
     def printTree(self, root):
-
+        #inorder traversal of tree
         if(root.leftChild is not None):
             self.printTree(root.leftChild)
-
         print(root.data)
-        
         if (root.rightChild is not None):
             self.printTree(root.rightChild)
 
@@ -124,9 +160,12 @@ root = Node(1)
 
 MyAVL = AVLTree(root)
 
-lst = [2, 3, 4, 5]
+lst = [3,5,4,2,16,15,20,25]
 
 for i in lst:
-    MyAVL.insert(i, root)
+    root = MyAVL.insert(i, root)
 
-MyAVL.printTree(MyAVL.root)
+print("\ntree:")
+MyAVL.printTree(root)
+print()
+print(root.rightChild.leftChild.leftChild.data)
