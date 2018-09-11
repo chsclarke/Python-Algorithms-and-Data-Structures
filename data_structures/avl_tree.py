@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This is an example of an AVL tree implimented in python 3.
+This is an example of AVL tree insert and print functinos implimented in python 3.
 Copyright 2018 Chase Clarke cfclarke@bu.edu
 """
 
@@ -167,5 +167,3 @@ for i in lst:
 
 print("\ntree:")
 MyAVL.printTree(root)
-print()
-print(root.rightChild.leftChild.leftChild.data)
