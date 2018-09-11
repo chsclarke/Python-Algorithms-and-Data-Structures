@@ -11,50 +11,90 @@ class Node:
         self.rightChild = None
         self.height = 1
 
-class BST:
+class AVLTree:
     def __init__(self, rootNode):
         self.root = rootNode
+
 
     def insert(self, key, currentNode):
         insertNode = Node(key)
 
-        currentNode.height = 1 + max(self.getHeight(currentNode.leftChild), self.getHeight(currentNode.rightChild))
-
         if insertNode.data < currentNode.data:
             if(currentNode.leftChild is None):
+                currentNode.height += 1
                 currentNode.leftChild = insertNode
-                return
 
             else:
-                self.insert(key, currentNode.leftChild)
+                currentNode.height = 1 + self.insert(key, currentNode.leftChild)
 
         elif insertNode.data > currentNode.data:
             if(currentNode.rightChild is None):
+                currentNode.height += 1
                 currentNode.rightChild = insertNode
-                return
 
             else:
-                self.insert(key, currentNode.rightChild)
+                currentNode.height = 1 + self.insert(key, currentNode.rightChild)
+        
+        balance = self.getBalance(currentNode)
+ 
+        # Case 1 - Left Left
+        if balance > 1 and key < currentNode.leftChild.data:
+            return self.rightRotation(currentNode)
+ 
+        # Case 2 - Right Right
+        if balance < -1 and key > currentNode.rightChild.data:
+            return self.leftRotation(currentNode)
+ 
+        # Case 3 - Left Right
+        if balance > 1 and key > currentNode.leftChild.data:
+            currentNode.leftChild = self.leftRotation(currentNode.leftChild)
+            return self.rightRotation(currentNode)
+ 
+        # Case 4 - Right Left
+        if balance < -1 and key < currentNode.rightChild.data:
+            currentNode.rightChild = self.rightRotation(currentNode.rightChild)
+            return self.leftRotation(currentNode)
+        
+        return currentNode.height
 
+    def getMax(self, leftChild, rightChild):
+        #checking for nonetype so max() isnt broken when child doesnt exist
+        if (leftChild is None):
+            if (rightChild is not None):
+                return rightChild.height
+            else:
+                return 0
+        elif (rightChild is None):
+            if (leftChild is not None):
+                return leftChild.height
+            else:
+                return 0
+        else:
+            return max(leftChild.height, rightChild.height)
 
     def leftRotation(self, root):
         temp = root.rightChild
         temp2 = temp.leftChild
-
         temp.leftChild = root
         root.rightChild = temp2
 
-        return
+        root.height = 1 + self.getMax(root.leftChild, root.rightChild)
+        temp.height = 1 + self.getMax(temp.leftChild, temp.rightChild)
 
+        self.root = temp
+        
 
     def rightRotation(self, root):
         temp = root.leftChild
         temp2 = temp.rightChild
-
         temp.rightChild = root
         root.leftChild = temp2
 
-        return
+        root.height = 1 + self.getMax(root.leftChild, root.rightChild)
+        temp.height = 1 + self.getMax(temp.leftChild, temp.rightChild)
+
+        self.root = temp
+
 
     def getHeight(self, root):
         if not root:
@@ -82,15 +122,11 @@ class BST:
 
 root = Node(1)
 
-MyBST = BST(root)
+MyAVL = AVLTree(root)
 
 lst = [2, 3, 4, 5]
 
 for i in lst:
-    MyBST.insert(i, root)
+    MyAVL.insert(i, root)
 
-MyBST.printTree(root)
-
-print("")
-
-print(root.height)
+MyAVL.printTree(MyAVL.root)
