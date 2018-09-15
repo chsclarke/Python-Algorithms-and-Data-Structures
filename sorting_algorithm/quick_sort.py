@@ -11,12 +11,18 @@ def partition(nums, low, high):
     j = high
 
     while True:
+        #finding first element greater than pivot to swap
         while nums[j] >= pivot and j > low:
             j -= 1
+        #finding first elemnt less than pivot to swap with greater element
         while nums[i] <= pivot  and i < high:
             i += 1
+        #swap elements just found
         if i < j:
             nums[i], nums[j] = nums[j], nums[i]
+        # Move pivot to middle of list segment so all elements
+        # < pivot are on left and all element > pivot are on its
+        # right. then return.
         else:
             nums[low], nums[j] = nums[j], nums[low]
             return j
@@ -26,6 +32,7 @@ def QuickSort(nums, low, high):
     if (low < high):
         pivot = partition(nums, low, high)
         
+        #recurisvely runs quicksort until sorted
         QuickSort(nums, low, pivot)
         QuickSort(nums, pivot + 1, high)
 
