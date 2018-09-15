@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+This is an example of binary search in python 3.
+wost case runtime theta(lgn)
+Copyright 2018 Chase Clarke cfclarke@bu.edu
+"""
+
 def findElement(key, lst, low, high):
 
     mid = (high + low - 1) // 2
