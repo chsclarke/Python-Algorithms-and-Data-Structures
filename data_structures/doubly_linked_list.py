@@ -93,36 +93,40 @@ class LList:
         
         if(self.head is not None):
             self.iterator = self.head
-            print(self.iterator.val, end=", ")
+            print(self.iterator.val, end=" -> ")
             
             while(self.iterator.next is not None):
                 self.iterator = self.iterator.next
-                print(self.iterator.val, end=", ")
+                print(self.iterator.val, end=" -> ")
+
+            print("None")
     
         else:
             print("List is empty.")
         print("")
             
 
-node1 = Node(12) #initialize new node
-lst1 = LList(node1) #initialize new llist with node
+if __name__ == '__main__':
 
-#add values to list
-lst1.insert(13)
-lst1.insert(14)
-lst1.insert(15)
+    node1 = Node(12) #initialize new node
+    lst1 = LList(node1) #initialize new llist with node
 
-#print full list from head to tail
-lst1.printList()
+    #add values to list
+    lst1.insert(13)
+    lst1.insert(14)
+    lst1.insert(15)
 
-#print tail->prev->prev
-print(lst1.tail.prev.prev.val)
+    #print full list from head to tail
+    lst1.printList()
 
-#find element in list
-print(lst1.find(16))
+    #print tail->prev->prev
+    print(lst1.tail.prev.prev.val)
 
-#remove element
-lst1.remove(14)
+    #find element in list
+    print(lst1.find(16))
 
-#print updated list
-lst1.printList()
+    #remove element
+    lst1.remove(14)
+
+    #print updated list
+    lst1.printList()

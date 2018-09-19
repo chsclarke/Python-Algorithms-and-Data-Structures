@@ -22,7 +22,7 @@ class AVLTree:
         insertNode = Node(key)
         insertNode.parent = currentNode
 
-        #recursivly checking nodes until correct location found
+        #recursivly checking nodes until correct insert location found
         if insertNode.data < currentNode.data:
             if(currentNode.leftChild is None):
                 currentNode.leftChild = insertNode
@@ -156,6 +156,25 @@ class AVLTree:
             self.printTree(root.rightChild)
 
 
+    def height(self, root): 
+        # helper function for checking if tree is balanced
+        # added after data structure coded
+        if root is None: 
+            return 0
+        return max(self.height(root.leftChild), self.height(root.rightChild)) + 1
+    
+    def isBalanced(self, root):
+        # checking if tree is balanced
+        if root is None:
+            return True
+        
+        balance = self.height(root.leftChild) - self.height(root.rightChild)
+        
+        if (balance > -2 and balance < 2 and self.isBalanced(root.leftChild) is True and self.isBalanced(root.rightChild) is True):
+            return True
+        else:
+            return False
+
 root = Node(1)
 
 MyAVL = AVLTree(root)
@@ -165,5 +184,6 @@ lst = [3,5,4,2,16,15,20,25]
 for i in lst:
     root = MyAVL.insert(i, root)
 
-print("\ntree:")
+print("\ntree inorder:")
 MyAVL.printTree(root)
+print("\n", MyAVL.isBalanced(root))
