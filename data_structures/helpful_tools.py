@@ -9,3 +9,27 @@ print(n, " reversed ", rev)
 
 #Reverse a string:
 print("hello world reversed ", 'hello world'[::-1])
+
+#queue
+queue = []
+queue.append(1)
+queue.append(2)
+queue.append(3)
+queue.append(4)
+queue.append(5)
+queue.pop(0)
+# >>> 1
+queue
+# >>> [2, 3, 4, 5]
+
+#stack
+stack = []
+stack.append(1)
+stack.append(2)
+stack.append(3)
+stack.append(4)
+stack.append(5)
+stack.pop(0)
+# >>> 5
+stack
+# >>> [1, 2, 3, 4]
