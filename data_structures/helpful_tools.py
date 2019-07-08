@@ -33,3 +33,9 @@ stack.pop(0)
 # >>> 5
 stack
 # >>> [1, 2, 3, 4]
+
+# max depth bst. recursive DFS approach
+def dfs(root, depth):
+    if root is None: return depth
+    return max (dfs(root.right, depth + 1), dfs(root.left, depth + 1))
+return dfs(root, 0)
