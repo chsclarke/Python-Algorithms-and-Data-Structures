@@ -39,3 +39,6 @@ def dfs(root, depth):
     if root is None: return depth
     return max (dfs(root.right, depth + 1), dfs(root.left, depth + 1))
 return dfs(root, 0)
+
+# if else one line python
+value_when_true if condition else value_when_false
